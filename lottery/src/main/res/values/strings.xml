@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">彩票</string>
+    <string name="action_settings">Settings</string>
+    <string name="network_seems_to_be_lost">网络似乎走丢</string>
+    <string name="initializing">正在初始化…</string>
+    <string name="title_activity_template">TemplateActivity</string>
+
+    <string name="lottery_name">彩票名称</string>
+    <string name="hot">热门</string>
+    <string name="high_frequency">高频</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string name="query">查询</string>
+    <string name="hot_short">热</string>
+    <string name="high_frequency_short">高</string>
+    <string name="lottery_type">彩票类型</string>
+
+
+</resources>
