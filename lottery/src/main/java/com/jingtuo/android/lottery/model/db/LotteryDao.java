@@ -86,4 +86,15 @@ public interface LotteryDao {
      */
     @Query("SELECT issuer FROM lottery GROUP BY issuer ORDER BY issuer")
     Flowable<List<String>> queryLotteryTypes();
+
+
+
+    /**
+     * 查询支持的彩票
+     *
+     * @param text
+     * @return
+     */
+    @Query("SELECT * FROM lottery WHERE descr LIKE '%'||:text||'%' OR notes LIKE '%'||:text||'%' OR area LIKE '%'||:text||'%'")
+    Flowable<List<Lottery>> querySupportedLotteries(String text);
 }

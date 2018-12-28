@@ -1,6 +1,7 @@
 package com.jingtuo.android.lottery.model.db;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
@@ -10,9 +11,10 @@ import lombok.Data;
 
 /**
  * 彩票
+ *
  * @author JingTuo
  */
-@Entity
+@Entity(indices = {@Index(value = {"descr", "notes", "area"})})
 @Data
 public class Lottery {
 

@@ -219,4 +219,17 @@ public class LotteryRepo {
         LotteryDao lotteryDao = database.lotteryDao();
         return lotteryDao.queryLotteryTypes();
     }
+
+
+    /**
+     *
+     * @param context
+     * @param name
+     * @return
+     */
+    public Flowable<List<Lottery>> querySupportedLotteries(Context context, String name) {
+        LotteryDatabase database = Room.databaseBuilder(context, LotteryDatabase.class, "lottery").build();
+        LotteryDao lotteryDao = database.lotteryDao();
+        return lotteryDao.querySupportedLotteries(name);
+    }
 }

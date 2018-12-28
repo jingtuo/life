@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "7eae16e338be0f94c61a04f549325a83",
+    "identityHash": "fac03b0e7ca0d2a53ba673d26031e7eb",
     "entities": [
       {
         "tableName": "Lottery",
@@ -69,7 +69,18 @@
           ],
           "autoGenerate": false
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_Lottery_descr_notes_area",
+            "unique": false,
+            "columnNames": [
+              "descr",
+              "notes",
+              "area"
+            ],
+            "createSql": "CREATE  INDEX `index_Lottery_descr_notes_area` ON `${TABLE_NAME}` (`descr`, `notes`, `area`)"
+          }
+        ],
         "foreignKeys": []
       },
       {
@@ -126,7 +137,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"7eae16e338be0f94c61a04f549325a83\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"fac03b0e7ca0d2a53ba673d26031e7eb\")"
     ]
   }
 }

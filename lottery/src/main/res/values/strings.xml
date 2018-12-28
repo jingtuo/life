@@ -14,6 +14,6 @@
     <string name="hot_short">热</string>
     <string name="high_frequency_short">高</string>
     <string name="lottery_type">彩票类型</string>
-
+    <string name="filter">过滤</string>
 
 </resources>

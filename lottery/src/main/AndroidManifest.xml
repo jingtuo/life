@@ -20,11 +20,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".page.home.HomeActivity" />
+        <activity android:name=".page.home.HomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
         <activity
             android:name=".page.template.TemplateActivity"
             android:label="@string/title_activity_template"
             android:theme="@style/AppTheme"></activity>
+
+        <provider
+            android:authorities="com.jingtuo.android.lottery.MySearchSuggestionsProvider"
+            android:name=".provider.MySearchSuggestionsProvider"/>
     </application>
 
 </manifest>

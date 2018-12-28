@@ -4,166 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingTop="10dp"
-    android:paddingRight="16dp"
-    android:paddingBottom="10dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".page.home.HomeActivity"
-    tools:showIn="@layout/activity_home">
-
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tv_lottery_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/lottery_name"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@id/et_lottery_name"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="@id/et_lottery_name" />
-
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tv_lottery_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/lottery_type"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@id/spinner_lottery_type"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="@id/spinner_lottery_type" />
-
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tv_hot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hot"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@id/rg_hot"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="@id/rg_hot" />
-
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tv_high"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/high_frequency"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@id/rg_high"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="@id/rg_high" />
-
-
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/et_lottery_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        app:layout_constraintLeft_toRightOf="@id/barrier"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.jingtuo.android.widget.Spinner
-        android:id="@+id/spinner_lottery_type"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/spinner_bg"
-        android:drawableEnd="@drawable/ic_arrow_drop_down_black_12dp"
-        android:paddingLeft="10dp"
-        android:paddingTop="10dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="10dp"
-        android:spinnerMode="dropdown"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        app:layout_constraintLeft_toRightOf="@id/barrier"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_lottery_name" />
-
-    <RadioGroup
-        android:id="@+id/rg_hot"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal"
-        app:layout_constraintLeft_toRightOf="@id/barrier"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spinner_lottery_type">
-
-        <android.support.v7.widget.AppCompatRadioButton
-            android:id="@+id/rb_hot_yes"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:checked="true"
-            android:text="@string/yes" />
-
-        <android.support.v7.widget.AppCompatRadioButton
-            android:id="@+id/rb_hot_no"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/no" />
-    </RadioGroup>
-
-    <RadioGroup
-        android:id="@+id/rg_high"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal"
-        app:layout_constraintLeft_toRightOf="@id/barrier"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rg_hot">
-
-        <android.support.v7.widget.AppCompatRadioButton
-            android:id="@+id/rb_high_yes"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/yes" />
-
-        <android.support.v7.widget.AppCompatRadioButton
-            android:id="@+id/rb_high_no"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:checked="true"
-            android:text="@string/no" />
-    </RadioGroup>
-
-    <android.support.constraint.Barrier
-        android:id="@+id/barrier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="end"
-        app:constraint_referenced_ids="tv_lottery_name, tv_lottery_type, tv_hot, tv_high" />
-
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/btn_query"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="@string/query"
-        app:layout_constraintTop_toBottomOf="@id/rg_high" />
+    tools:context=".page.template.TemplateActivity"
+    tools:showIn="@layout/activity_template">
 
     <ListView
         android:id="@+id/list_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_query" />
+        app:layout_constraintTop_toTopOf="parent" />
+
 </android.support.constraint.ConstraintLayout>
