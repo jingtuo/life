@@ -5,17 +5,66 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".page.template.TemplateActivity"
-    tools:showIn="@layout/activity_template">
+    tools:context=".page.home.HomeActivity"
+    tools:showIn="@layout/activity_home">
+
+    <android.support.v7.widget.AppCompatCheckedTextView
+        android:id="@+id/ctv_hot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/label_bg"
+        android:checked="true"
+        android:paddingLeft="16dp"
+        android:paddingTop="5dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="5dp"
+        android:text="@string/hot"
+        android:textColor="@color/label_color"
+        android:textSize="14sp"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/ctv_high"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.AppCompatCheckedTextView
+        android:id="@+id/ctv_high"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/label_bg"
+        android:checked="false"
+        android:paddingLeft="16dp"
+        android:paddingTop="5dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="5dp"
+        android:text="@string/high_frequency"
+        android:textColor="@color/label_color"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/ctv_hot"
+        app:layout_constraintLeft_toRightOf="@id/ctv_hot"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ctv_hot" />
+
+    <View
+        android:id="@+id/v_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintTop_toBottomOf="@id/ctv_hot" />
 
     <ListView
         android:id="@+id/list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/v_line" />
 
 </android.support.constraint.ConstraintLayout>

@@ -196,21 +196,20 @@ public class LotteryRepo {
     }
 
     /**
-     *
      * @param context
-     * @param name
+     * @param text
      * @param type
      * @param hot
      * @param high
      * @return
      */
-    public Flowable<List<Lottery>> querySupportedLotteries(Context context, String name, String type, boolean hot, boolean high) {
+    public Flowable<List<Lottery>> querySupportedLotteries(Context context, String text, String type, boolean hot, boolean high) {
         LotteryDatabase database = Room.databaseBuilder(context, LotteryDatabase.class, "lottery").build();
         LotteryDao lotteryDao = database.lotteryDao();
         if (TextUtils.isEmpty(type)) {
-            return lotteryDao.querySupportedLotteries(name, hot?Constants.TRUE:Constants.FALSE, high?Constants.TRUE:Constants.FALSE);
+            return lotteryDao.querySupportedLotteries(text, hot ? Constants.TRUE : Constants.FALSE, high ? Constants.TRUE : Constants.FALSE);
         }
-        return lotteryDao.querySupportedLotteries(name, type, hot?Constants.TRUE:Constants.FALSE, high?Constants.TRUE:Constants.FALSE);
+        return lotteryDao.querySupportedLotteries(text, type, hot ? Constants.TRUE : Constants.FALSE, high ? Constants.TRUE : Constants.FALSE);
     }
 
 
@@ -222,7 +221,6 @@ public class LotteryRepo {
 
 
     /**
-     *
      * @param context
      * @param name
      * @return

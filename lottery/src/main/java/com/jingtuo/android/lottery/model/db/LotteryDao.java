@@ -71,13 +71,13 @@ public interface LotteryDao {
     /**
      * 查询支持的彩票
      *
-     * @param name
+     * @param text
      * @param hots
      * @param high
      * @return
      */
-    @Query("SELECT * FROM lottery WHERE descr LIKE '%'||:name||'%' and hots = :hots and high = :high")
-    Flowable<List<Lottery>> querySupportedLotteries(String name, String hots, String high);
+    @Query("SELECT * FROM lottery WHERE (descr LIKE '%'||:text||'%' OR notes LIKE '%'||:text||'%' OR area LIKE '%'||:text||'%') and hots = :hots and high = :high")
+    Flowable<List<Lottery>> querySupportedLotteries(String text, String hots, String high);
 
     /**
      * 查询彩票类型
@@ -86,7 +86,6 @@ public interface LotteryDao {
      */
     @Query("SELECT issuer FROM lottery GROUP BY issuer ORDER BY issuer")
     Flowable<List<String>> queryLotteryTypes();
-
 
 
     /**

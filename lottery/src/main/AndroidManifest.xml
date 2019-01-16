@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.jingtuo.android.lottery">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -12,7 +13,8 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity android:name=".page.init.InitActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,22 +22,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".page.home.HomeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-        </activity>
+        <activity android:name=".page.home.HomeActivity"/>
         <activity
             android:name=".page.template.TemplateActivity"
             android:label="@string/title_activity_template"
-            android:theme="@style/AppTheme"></activity>
-
-        <provider
-            android:authorities="com.jingtuo.android.lottery.MySearchSuggestionsProvider"
-            android:name=".provider.MySearchSuggestionsProvider"/>
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>
