@@ -10,20 +10,23 @@ import com.jingtuo.android.lottery.model.db.LotteryDao;
 import com.jingtuo.android.lottery.model.db.LotteryDatabase;
 import com.jingtuo.android.lottery.model.db.LotteryResult;
 import com.jingtuo.android.lottery.model.request.LotteryService;
+import com.jingtuo.android.lottery.model.request.QueryLotteryResult;
+import com.jingtuo.android.lottery.model.response.LotteryResultWrapper;
 import com.jingtuo.android.lottery.model.response.YiYuanResponse;
+import com.jingtuo.android.lottery.util.LotteryUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import io.reactivex.Completable;
 
 import io.reactivex.Flowable;
+import io.reactivex.Observable;
+import lombok.Getter;
 import okhttp3.OkHttpClient;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -37,6 +40,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class LotteryRepo {
 
+    @Getter
+    private LotteryService lotteryService;
+
+    @Getter
+    private LotteryDao lotteryDao;
 
     public static LotteryRepo getInstance() {
         return SingletonHolder.INSTANCE;
@@ -52,23 +60,35 @@ public class LotteryRepo {
         }
     }
 
+
     /**
-     * 初始化彩票数据
-     *
-     * @param context
+     * @param appContext
+     * @return
      */
-    public Completable initSupportedLottery(final Context context) {
+    public Completable initSupportedLottery(final Context appContext) {
         return Completable.fromAction(() -> {
-            LotteryDatabase database = Room.databaseBuilder(context, LotteryDatabase.class, "lottery").build();
-            LotteryDao lotteryDao = database.lotteryDao();
+            //服务接口
+            OkHttpClient httpClient = new OkHttpClient
+                    .Builder()
+                    .addNetworkInterceptor(new NetworkInterceptor(appContext))
+                    .build();
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("http://route.showapi.com/")
+                    .client(httpClient)
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            lotteryService = retrofit.create(LotteryService.class);
+            //数据库上
+            LotteryDatabase database = Room.databaseBuilder(appContext, LotteryDatabase.class, Constants.LOTTERY).build();
+            lotteryDao = database.lotteryDao();
             List<Lottery> lotteries = lotteryDao.querySupportedLotteries();
             if (lotteries != null && !lotteries.isEmpty()) {
                 //由于易源数据平台每天请求次数有限,支持的彩票仅请求一次
                 return;
             }
-            LotteryService service = createLotteryService(context.getApplicationContext());
-            Response<YiYuanResponse<ArrayList<Lottery>>> response = service.querySupportedLotteries(createQuerySupportedLotteryFields()).execute();
-            lotteries = getData(response);
+            Response<YiYuanResponse<ArrayList<Lottery>>> response = lotteryService.querySupportedLotteries(LotteryUtils.createQuerySupportedLotteryFields()).execute();
+            lotteries = LotteryUtils.getData(response);
             if (lotteries == null || lotteries.isEmpty()) {
                 //未知情况,可能是网络错误或者易源数据平台出现问题
                 return;
@@ -76,40 +96,6 @@ public class LotteryRepo {
             lotteryDao.insertLotteries(lotteries);
         });
     }
-
-    /**
-     * 创建彩票服务
-     *
-     * @param context
-     * @return
-     */
-    private LotteryService createLotteryService(Context context) {
-        OkHttpClient httpClient = new OkHttpClient
-                .Builder()
-                .addNetworkInterceptor(new NetworkInterceptor(context.getApplicationContext()))
-                .build();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://route.showapi.com/")
-                .client(httpClient)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        return retrofit.create(LotteryService.class);
-    }
-
-    /**
-     * @param response
-     * @param <T>
-     * @return
-     */
-    private <T> T getData(Response<YiYuanResponse<T>> response) {
-        if (response == null || 200 != response.code() || response.body() == null || 0 != response.body().getCode()) {
-            return null;
-        }
-        return response.body().getBody().getResult();
-    }
-
 
     /**
      *
@@ -120,7 +106,7 @@ public class LotteryRepo {
         Calendar calendar = Calendar.getInstance();
         Date date;
         while (true) {
-            ArrayList<LotteryResult> lotteryResults = getData(lotteryService.queryLotteryResults(createQueryLotteryResultFields(lottery.getCode(), endTime)).execute());
+            ArrayList<LotteryResult> lotteryResults = LotteryUtils.getData(lotteryService.queryLotteryResults(LotteryUtils.createQueryLotteryResultFields(lottery.getCode(), endTime)).execute());
             if (lotteryResults == null) {
                 lotteryResults = new ArrayList<>();
             }
@@ -166,34 +152,6 @@ public class LotteryRepo {
         return count;
     }
 
-    /**
-     * 创建查询支持股票的请求参数
-     *
-     * @return
-     */
-    private Map<String, String> createQuerySupportedLotteryFields() {
-        Map<String, String> fields = new HashMap<>();
-        fields.put("showapi_appid", "81044");
-        fields.put("showapi_sign", "ee863ff12f2e4ed9845e2ee527f75bef");
-        fields.put("showapi_timestamp", "");
-        fields.put("showapi_res_gzip", "1");
-        return fields;
-    }
-
-    /**
-     * 创建查询股票开奖结果的请求参数
-     *
-     * @param code
-     * @param endTime
-     * @return
-     */
-    private Map<String, String> createQueryLotteryResultFields(String code, String endTime) {
-        Map<String, String> map = createQuerySupportedLotteryFields();
-        map.put("code", code);
-        map.put("endTime", endTime);
-        map.put("count", "50");
-        return map;
-    }
 
     /**
      * @param context
@@ -229,5 +187,14 @@ public class LotteryRepo {
         LotteryDatabase database = Room.databaseBuilder(context, LotteryDatabase.class, "lottery").build();
         LotteryDao lotteryDao = database.lotteryDao();
         return lotteryDao.querySupportedLotteries(name);
+    }
+
+    /**
+     * @param lottery
+     * @param time
+     * @return
+     */
+    public Observable<LotteryResultWrapper> queryLotteryResults(Lottery lottery, String time) {
+        return Observable.fromCallable(new QueryLotteryResult(lottery.getCode(), time));
     }
 }

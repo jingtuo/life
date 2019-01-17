@@ -7,4 +7,10 @@ package com.jingtuo.android.lottery;
 public class Constants {
     public static final String TRUE = "true";
     public static final String FALSE = "false";
+
+
+    public static final String LOTTERY = "lottery";
+
+
+    public static final int SIZE = 50;
 }

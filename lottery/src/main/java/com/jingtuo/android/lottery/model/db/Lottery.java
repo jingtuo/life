@@ -3,9 +3,13 @@ package com.jingtuo.android.lottery.model.db;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
+
+import java.util.Objects;
 
 import lombok.Data;
 
@@ -16,7 +20,7 @@ import lombok.Data;
  */
 @Entity(indices = {@Index(value = {"descr", "notes", "area"})})
 @Data
-public class Lottery {
+public class Lottery implements Parcelable {
 
     /**
      * 彩票种类
@@ -73,5 +77,47 @@ public class Lottery {
 
     public Lottery(@NonNull String code) {
         this.code = code;
+    }
+
+    protected Lottery(Parcel in) {
+        series = in.readString();
+        area = in.readString();
+        issuer = in.readString();
+        times = in.readString();
+        hots = in.readString();
+        high = in.readString();
+        code = Objects.requireNonNull(in.readString());
+        notes = in.readString();
+        descr = in.readString();
+    }
+
+    public static final Creator<Lottery> CREATOR = new Creator<Lottery>() {
+        @Override
+        public Lottery createFromParcel(Parcel in) {
+            return new Lottery(in);
+        }
+
+        @Override
+        public Lottery[] newArray(int size) {
+            return new Lottery[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(series);
+        dest.writeString(area);
+        dest.writeString(issuer);
+        dest.writeString(times);
+        dest.writeString(hots);
+        dest.writeString(high);
+        dest.writeString(code);
+        dest.writeString(notes);
+        dest.writeString(descr);
     }
 }

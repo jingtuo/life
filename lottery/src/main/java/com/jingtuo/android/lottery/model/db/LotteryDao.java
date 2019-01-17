@@ -96,4 +96,14 @@ public interface LotteryDao {
      */
     @Query("SELECT * FROM lottery WHERE descr LIKE '%'||:text||'%' OR notes LIKE '%'||:text||'%' OR area LIKE '%'||:text||'%'")
     Flowable<List<Lottery>> querySupportedLotteries(String text);
+
+
+    /**
+     * 查询彩票开奖结果
+     * @param code
+     * @param time
+     * @return
+     */
+    @Query("SELECT * FROM LotteryResult WHERE code=:code AND time <= :time ORDER BY time DESC LIMIT 0, 50")
+    List<LotteryResult> queryLotteryResults(String code, String time);
 }

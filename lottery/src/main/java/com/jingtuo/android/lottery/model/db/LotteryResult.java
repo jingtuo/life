@@ -12,8 +12,6 @@ import lombok.Data;
  */
 @Entity(primaryKeys = {"code", "expect"})
 @Data
-
-
 public class LotteryResult {
 
     /**

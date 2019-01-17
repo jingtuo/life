@@ -1,5 +1,6 @@
 package com.jingtuo.android.lottery.page.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatCheckedTextView;
 import android.support.v7.widget.SearchView;
@@ -11,10 +12,12 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.jingtuo.android.lottery.Constants;
 import com.jingtuo.android.lottery.R;
 import com.jingtuo.android.lottery.model.repo.LotteryRepo;
 import com.jingtuo.android.lottery.page.base.BaseActivity;
 import com.jingtuo.android.lottery.page.home.widget.LotteryAdapter;
+import com.jingtuo.android.lottery.page.lottery.result.LotteryResultActivity;
 import com.jingtuo.android.lottery.util.SimpleLog;
 
 
@@ -126,6 +129,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        SimpleLog.d("TEST", position + "");
+        Intent intent = new Intent(this, LotteryResultActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(Constants.LOTTERY, lotteryAdapter.getItem(position));
+        startActivity(intent);
     }
 }

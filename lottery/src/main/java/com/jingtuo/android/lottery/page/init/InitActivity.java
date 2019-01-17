@@ -34,6 +34,7 @@ public class InitActivity extends BaseActivity {
                     SimpleLog.e(TAG, throwable.getMessage());
                     enterHome();
                 }));
+        enterHome();
     }
 
     /**
