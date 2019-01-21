@@ -1,6 +1,5 @@
 package com.jingtuo.android.widget;
 
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +8,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 刷新控件
+ * 加载更多控件
+ * <p>
+ * 手指从上往下滑动->下拉
+ * 手指从下往上滑动->上滑
  *
  * @author JingTuo
  */
 public class LoadMoreController implements View.OnTouchListener {
+
+    private static final String TAG = LoadMoreController.class.getSimpleName();
 
     public static final int STATUS_NONE = 0;
     public static final int STATUS_PULL_TO_LOAD_MORE = 1;
@@ -80,10 +84,11 @@ public class LoadMoreController implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if (!enabled || STATUS_LOAD_MORE == status || parent.canScrollVertically(1)) {
-            //不可用,正在加载更多或者可以向下滑动, 忽略任何事件
+        if (!enabled || STATUS_LOAD_MORE == status || ViewUtils.canScrollVertically(parent, 1)) {
+            //不可用,正在加载更多,忽略任何事件
             return false;
         }
+
         int action = event.getAction();
         if (MotionEvent.ACTION_DOWN == action) {
             lastActionIndex = event.getActionIndex();
@@ -187,7 +192,7 @@ public class LoadMoreController implements View.OnTouchListener {
                 }
                 if (previousPaddingBottom == maxPaddingBottom) {
                     //控件已经最大高度,继续从下往上滑动,什么都不做
-                    return true;
+                    return false;
                 }
             }
             if (nextPaddingBottom < minPaddingBottom) {
@@ -202,7 +207,7 @@ public class LoadMoreController implements View.OnTouchListener {
             } else {
                 changeStatus(STATUS_RELEASE_TO_LOAD_MORE);
             }
-            return true;
+            return false;
         }
         return false;
     }
@@ -220,14 +225,14 @@ public class LoadMoreController implements View.OnTouchListener {
             //只处理最后一次按下的抬起事件
             if (STATUS_RELEASE_TO_LOAD_MORE == status) {
                 //松开刷新
-                changeStatus(STATUS_LOAD_MORE);
                 loadMoreView.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
+                changeStatus(STATUS_LOAD_MORE);
                 if (onLoadMoreListener != null) {
                     onLoadMoreListener.onLoadMore(parent);
                 }
             } else {
-                changeStatus(STATUS_NONE);
                 loadMoreView.setPadding(paddingLeft, paddingTop, paddingRight, minPaddingBottom);
+                changeStatus(STATUS_NONE);
             }
             return true;
         }
@@ -240,11 +245,13 @@ public class LoadMoreController implements View.OnTouchListener {
      * @param status
      */
     private void changeStatus(int status) {
-        if (this.status != status) {
-            this.status = status;
-            if (onStatusChangedListener != null) {
-                onStatusChangedListener.onStatusChanged(parent, this.status);
-            }
+        this.status = status;
+        if (onStatusChangedListener != null) {
+            onStatusChangedListener.onStatusChanged(parent, this.status);
         }
     }
+
+
+
+
 }
