@@ -117,8 +117,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
      * @param high
      */
     private void query(String text, boolean hot, boolean high) {
-        mDisposable.add(LotteryRepo.getInstance().querySupportedLotteries(this, text, "", hot, high)
-                .subscribeOn(Schedulers.newThread())
+        mDisposable.add(LotteryRepo.getInstance().querySupportedLotteries(getApplicationContext(), text, "", hot, high)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(lotteries -> {
                     lotteryAdapter.setData(lotteries);

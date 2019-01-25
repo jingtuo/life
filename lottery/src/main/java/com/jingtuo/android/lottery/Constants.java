@@ -13,4 +13,15 @@ public class Constants {
 
 
     public static final int SIZE = 50;
+
+
+    public static final String SSQ = "ssq";
+
+
+    public static final String SPLIT_COMMA = ",";
+    public static final String SPLIT_PLUS = "+";
+
+
+    public static final int PAGE_SIZE = 20;
+
 }

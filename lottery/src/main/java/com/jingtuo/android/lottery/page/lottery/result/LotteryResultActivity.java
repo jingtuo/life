@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
@@ -13,6 +15,7 @@ import com.jingtuo.android.lottery.model.db.Lottery;
 import com.jingtuo.android.lottery.model.db.LotteryResult;
 import com.jingtuo.android.lottery.model.repo.LotteryRepo;
 import com.jingtuo.android.lottery.page.base.BaseActivity;
+import com.jingtuo.android.lottery.page.lottery.combination.LotteryCombinationActivity;
 import com.jingtuo.android.lottery.page.lottery.result.widget.LoadMoreFooterViewController;
 import com.jingtuo.android.lottery.page.lottery.result.widget.LotteryResultAdapter;
 import com.jingtuo.android.lottery.util.SimpleLog;
@@ -54,8 +57,7 @@ public class LotteryResultActivity extends BaseActivity implements LoadMoreContr
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle(mLottery.getDescr());
+            actionBar.setTitle(mLottery.getDescr() + " → " + getString(R.string.lottery_result));
         }
 
         ListView listView = findViewById(R.id.list_view);
@@ -65,11 +67,12 @@ public class LotteryResultActivity extends BaseActivity implements LoadMoreContr
         loadMoreController = new LoadMoreController(listView, loadMoreView);
         loadMoreController.setOnSlideDistanceListener(loadMoreFooterViewController);
         loadMoreController.setOnStatusChangedListener(loadMoreFooterViewController);
+        loadMoreController.setOnLoadMoreListener(this);
 
         resultAdapter = new LotteryResultAdapter();
         listView.setAdapter(resultAdapter);
 
-        mDisposable.add(LotteryRepo.getInstance().queryLotteryResults(mLottery, "")
+        mDisposable.add(LotteryRepo.getInstance().queryLotteryResults(getApplicationContext(), mLottery, "")
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(lotteryResultWrapper -> {
@@ -79,7 +82,6 @@ public class LotteryResultActivity extends BaseActivity implements LoadMoreContr
                     loadMoreController.setLoadMore(false);
                 }));
 
-        loadMoreController.setOnLoadMoreListener(this);
     }
 
     @Override
@@ -97,7 +99,7 @@ public class LotteryResultActivity extends BaseActivity implements LoadMoreContr
             SimpleLog.e(TAG, e.getMessage());
             return;
         }
-        mDisposable.add(LotteryRepo.getInstance().queryLotteryResults(mLottery, time)
+        mDisposable.add(LotteryRepo.getInstance().queryLotteryResults(getApplicationContext(), mLottery, time)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(lotteryResultWrapper -> {
@@ -106,5 +108,24 @@ public class LotteryResultActivity extends BaseActivity implements LoadMoreContr
                     resultAdapter.notifyDataSetChanged();
                     loadMoreController.setLoadMore(false);
                 }));
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.result_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (R.id.analysis == item.getItemId()) {
+            Intent intent = new Intent(this, LotteryCombinationActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra(Constants.LOTTERY, mLottery);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

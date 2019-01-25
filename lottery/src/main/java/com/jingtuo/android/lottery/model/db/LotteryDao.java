@@ -100,10 +100,48 @@ public interface LotteryDao {
 
     /**
      * 查询彩票开奖结果
+     *
      * @param code
      * @param time
      * @return
      */
     @Query("SELECT * FROM LotteryResult WHERE code=:code AND time <= :time ORDER BY time DESC LIMIT 0, 50")
     List<LotteryResult> queryLotteryResults(String code, String time);
+
+
+    /**
+     * 查询彩票开奖结果
+     *
+     * @param code
+     * @return
+     */
+    @Query("SELECT * FROM LotteryResult WHERE code=:code")
+    List<LotteryResult> queryLotteryResults(String code);
+
+    /**
+     * 查询组合
+     *
+     * @param code
+     * @return
+     */
+    @Query("SELECT COUNT(*) FROM LotteryCombination WHERE code=:code")
+    int queryCombination(String code);
+
+    /**
+     * 插入组合
+     *
+     * @param combinations
+     * @return
+     */
+    @Insert(onConflict = OnConflictStrategy.ROLLBACK)
+    long[] insertCombination(List<LotteryCombination> combinations);
+
+    /**
+     * @param code
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    @Query("SELECT * FROM LotteryCombination WHERE code=:code ORDER BY :orderBy LIMIT (:pageNo - 1) * :pageSize, :pageSize")
+    List<LotteryCombination> queryCombinations(String code, String orderBy, int pageNo, int pageSize);
 }

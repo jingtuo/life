@@ -61,5 +61,56 @@ public class LotteryUtils {
         return response.body().getBody().getResult();
     }
 
+    /**
+     * 阶乘：n!=n * (n - 1) .... * 2 * 1; 0! = 1;
+     *
+     * @param n 数值
+     * @return
+     */
+    public static int factorial(int n) {
+        if (n < 0) {
+            return 0;
+        }
+        if (n == 0) {
+            return 1;
+        }
+        int result = 1;
+        for (int i = n; i >= 1; i--) {
+            result = result * i;
+        }
+        return result;
+    }
 
+
+    /**
+     * 从n个元素中提取m个元素进行组合, C(n, m) = n! / m!(n-m)!
+     *
+     * @param n n个元素
+     * @param m m个元素
+     * @return
+     */
+    public static int combine(int n, int m) {
+        int mf = factorial(m);
+        int nmf = factorial(n - m);
+        if (mf == 0 || nmf == 0) {
+            return 0;
+        }
+        return factorial(n) / mf * nmf;
+    }
+
+
+    /**
+     * 从n个元素中提取m个元素进行排列, A(n, m) = n! / (n-m)!
+     *
+     * @param n n个元素
+     * @param m m个元素
+     * @return
+     */
+    public static int arrangement(int n, int m) {
+        int nmf = factorial(m - n);
+        if (nmf == 0) {
+            return 0;
+        }
+        return factorial(n) / nmf;
+    }
 }

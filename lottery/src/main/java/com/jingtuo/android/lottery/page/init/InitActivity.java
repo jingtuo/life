@@ -10,6 +10,7 @@ import com.jingtuo.android.lottery.page.home.HomeActivity;
 import com.jingtuo.android.lottery.util.SimpleLog;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -23,18 +24,13 @@ public class InitActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_init);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         mDisposable.add(LotteryRepo.getInstance().initSupportedLottery(this)
                 .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe(this::enterHome, throwable -> {
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(s -> enterHome(), throwable -> {
                     SimpleLog.e(TAG, throwable.getMessage());
                     enterHome();
                 }));
-        enterHome();
     }
 
     /**
