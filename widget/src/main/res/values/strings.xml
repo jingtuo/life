@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">widget</string>
+    <string name="initializing">正在初始化…</string>
 </resources>

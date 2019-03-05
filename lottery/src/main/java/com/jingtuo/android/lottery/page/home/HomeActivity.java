@@ -15,11 +15,9 @@ import android.widget.ListView;
 import com.jingtuo.android.lottery.Constants;
 import com.jingtuo.android.lottery.R;
 import com.jingtuo.android.lottery.model.repo.LotteryRepo;
-import com.jingtuo.android.lottery.page.base.BaseActivity;
 import com.jingtuo.android.lottery.page.home.widget.LotteryAdapter;
 import com.jingtuo.android.lottery.page.lottery.result.LotteryResultActivity;
-import com.jingtuo.android.lottery.util.SimpleLog;
-
+import com.jingtuo.android.rx.BaseActivity;
 
 
 import io.reactivex.android.schedulers.AndroidSchedulers;

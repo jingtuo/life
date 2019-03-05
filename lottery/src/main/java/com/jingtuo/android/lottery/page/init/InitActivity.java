@@ -5,12 +5,11 @@ import android.os.Bundle;
 
 import com.jingtuo.android.lottery.R;
 import com.jingtuo.android.lottery.model.repo.LotteryRepo;
-import com.jingtuo.android.lottery.page.base.BaseActivity;
 import com.jingtuo.android.lottery.page.home.HomeActivity;
 import com.jingtuo.android.lottery.util.SimpleLog;
+import com.jingtuo.android.rx.BaseActivity;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**

@@ -32,7 +32,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
 }
 
 dependencies {
@@ -57,4 +56,5 @@ dependencies {
     implementation depends.rxjava
     implementation depends.rxandroid
     implementation project(':widget')
+    implementation project(path: ':rx')
 }

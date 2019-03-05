@@ -1,1 +1,1 @@
-include ':app', ':lottery', ':widget'
+include ':app', ':lottery', ':widget', ':libu', ':rx', ':util', ':nos'

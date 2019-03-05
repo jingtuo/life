@@ -1,0 +1,11 @@
+{
+  "ListAllMyBucketsResult": {
+    "Owner": {
+      "ID": "37287258ad8e4c64a6920b0e8113f935"
+    },
+    "Buckets": [{
+      "Name": "jingtuo",
+      "CreationDate": "2019-03-04T17:37:20 +0800"
+    }]
+  }
+}

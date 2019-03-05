@@ -18,7 +18,6 @@ import com.jingtuo.android.widget.LoadMoreController;
 
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
